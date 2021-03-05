@@ -99,7 +99,7 @@ const getAllProperties = function (options, limit = 10) {
 
   if (options.city) {
     queryParams.push(`%${options.city}%`);
-    queryString += `WHERE city LIKE $${queryParams.length}`;
+    queryString += `WHERE city ILIKE $${queryParams.length}`;
   }
 
   if (options.owner_id) {
@@ -130,7 +130,7 @@ const getAllProperties = function (options, limit = 10) {
   ORDER BY cost_per_night
   LIMIT $${queryParams.length};
   `;
-
+console.log(queryString);
   return pool.query(queryString, queryParams)
     .then(res => res.rows);
 }
