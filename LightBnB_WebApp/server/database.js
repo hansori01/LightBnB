@@ -94,7 +94,7 @@ const getAllProperties = function (options, limit = 10) {
   let queryString = `
   SELECT properties.*, AVG(property_reviews.rating) AS average_rating
   FROM properties
-  JOIN property_reviews ON properties.id = property_reviews.property_id
+  LEFT JOIN property_reviews ON properties.id = property_reviews.property_id
   `;
 
   if (options.city) {
@@ -130,7 +130,6 @@ const getAllProperties = function (options, limit = 10) {
   ORDER BY cost_per_night
   LIMIT $${queryParams.length};
   `;
-console.log(queryString);
   return pool.query(queryString, queryParams)
     .then(res => res.rows);
 }
@@ -142,7 +141,7 @@ exports.getAllProperties = getAllProperties;
 /**
  * Add a property to the database
  * @param {{}} property An object containing all of the property details.
- * @return {Promise<{}>} A promise to the property.
+ * @return {Promise<{}>} A promise to tahe property.
  */
 const addProperty = function (property) {
 
